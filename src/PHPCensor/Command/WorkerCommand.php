@@ -69,7 +69,6 @@ class WorkerCommand extends Command
 
         // Allow PHPCI to run in "debug mode"
         if ($input->hasOption('debug') && $input->getOption('debug')) {
-            $output->writeln('<comment>Debug mode enabled.</comment>');
             define('DEBUG_MODE', true);
         }
 

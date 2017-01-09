@@ -148,7 +148,7 @@ class PhpUnit extends Plugin implements ZeroConfigPluginInterface
         $buildPath = $this->build->getBuildPath() . DIRECTORY_SEPARATOR;
 
         // Save the results into a json file
-        $jsonFile = tempnam(RUNTIME_DIR, 'jLog_');
+        $jsonFile = tempnam(RUNTIME_DIR, 'jLogPHPUnit_');
         $options->addArgument('log-json', $jsonFile);
 
         // Removes any current configurations files

@@ -61,7 +61,7 @@ var codeceptionPlugin = ActiveBuild.UiPlugin.extend({
 
             var rows = $('<tr data-toggle="collapse" data-target="#collapse'+i+'">' +
                 '<td><strong>'+tests[i].suite+'</strong</td>' +
-                '<td>'+tests[i].feature+'</td>' +
+                '<td>'+tests[i].message+'</td>' +
                 '<td>'+tests[i].time+'</td>'+
                 '</tr>' +
                 '<tr id="collapse'+i+'" class="collapse" >' +

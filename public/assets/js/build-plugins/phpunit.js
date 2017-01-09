@@ -6,13 +6,6 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
     displayOnUpdate: false,
     box: true,
     rendered: false,
-    statusMap: {
-        success : 'ok',
-        failed: 'remove',
-        error: 'warning-sign',
-        todo: 'info-sign',
-        skipped: 'exclamation-sign'
-    },
 
     register: function() {
         var self = this;
@@ -38,6 +31,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
                 '<th>'+Lang.get('status')+'</th>' +
                 '<th>'+Lang.get('test_message')+'</th>' +
                 '<th>'+Lang.get('trace')+'</th>' +
+                '<th>'+Lang.get('time')+'</th>' +
             '</tr>' +
             '</thead><tbody></tbody></table></div>');
     },
@@ -54,7 +48,7 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
         var tests = this.lastData[0].meta_value;
         var thead = $('#phpunit-data thead tr');
         var tbody = $('#phpunit-data tbody');
-        thead.empty().append('<th>'+Lang.get('status')+'</th><th>'+Lang.get('test_message')+'</th><th>'+Lang.get('trace')+'</th>');
+        thead.empty().append('<th>'+Lang.get('status')+'</th><th>'+Lang.get('test_message')+'</th><th>'+Lang.get('trace')+'</th><th>'+Lang.get('time')+'</th>');
         tbody.empty();
 
         if (tests.length == 0) {
@@ -78,7 +72,8 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
                 content       = $('<td></td>'),
                 trace         = $('<td></td>'),
                 message       = $('<div class="visible-line-breaks"></div>').appendTo(content),
-                trace_message = $('<div class="visible-line-breaks"></div>').appendTo(trace);
+                trace_message = $('<div class="visible-line-breaks"></div>').appendTo(trace),
+                time          = $('<td></td>');
 
             if (tests[i].message) {
                 message.text(tests[i].message);
@@ -95,8 +90,14 @@ var phpunitPlugin = ActiveBuild.UiPlugin.extend({
             if (tests[i].trace && tests[i].trace.length) {
                 trace_message.append(tests[i].trace);
             }
+            
+            if (tests[i].time) {
+                time.append(tests[i].time);
+            } else {
+                time.append('0.000');
+            }
 
-            $('<tr></tr>').append(status).append(content).append(trace).appendTo(tbody);
+            $('<tr></tr>').append(status).append(content).append(trace).append(time).appendTo(tbody);
 
             counts[severity]++;
             total++;

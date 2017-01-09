@@ -12,6 +12,7 @@ namespace PHPCensor\Plugin;
 use PHPCensor\Builder;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
+use PHPCensor\Model\BuildError;
 use PHPCensor\Plugin\Util\TestResultParsers\Codeception as Parser;
 use PHPCensor\Plugin;
 use Symfony\Component\Yaml\Parser as YamlParser;
@@ -120,21 +121,9 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
     protected function runConfigFile($configPath)
     {
         $codeception = $this->builder->findBinary('codecept');
-
-        if (!$codeception) {
-            $this->builder->logFailure(Lang::get('could_not_find', 'codecept'));
-
-            return false;
-        }
-
-        $cmd = 'cd "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
-
-        if (IS_WIN) {
-            $cmd = 'cd /d "%s" && ' . $codeception . ' run -c "%s" --xml ' . $this->args;
-        }
-
-        $configPath = $this->builder->buildPath . $configPath;
-        $success = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
+        $cmd         = $codeception . ' run -c "%s" --json ' . $this->args;
+        $configPath  = $this->builder->buildPath . $configPath;
+        $success     = $this->builder->executeCommand($cmd, $this->builder->buildPath, $configPath);
 
         $parser = new YamlParser();
         $yaml   = file_get_contents($configPath);
@@ -143,21 +132,38 @@ class Codeception extends Plugin implements ZeroConfigPluginInterface
         if ($config && isset($config['paths']['log'])) {
             $this->path = $config['paths']['log'] . DIRECTORY_SEPARATOR;
         }
+        
+        $jsonFile = $this->builder->buildPath . $this->path . 'report.json';
 
-        $xml    = file_get_contents($this->builder->buildPath . $this->path . 'report.xml', false);
-        $parser = new Parser($this->builder, $xml);
-        $output = $parser->parse();
-
-        $meta = [
-            'tests'     => $parser->getTotalTests(),
-            'timetaken' => $parser->getTotalTimeTaken(),
-            'failures'  => $parser->getTotalFailures()
-        ];
-
-        $this->build->storeMeta('codeception-meta', $meta);
-        $this->build->storeMeta('codeception-data', $output);
-        $this->build->storeMeta('codeception-errors', $parser->getTotalFailures());
+        $this->processResults($jsonFile);
 
         return $success;
+    }
+
+    /**
+     * Saves the test results
+     *
+     * @param string $jsonFile
+     *
+     * @throws \Exception If the failed to parse the JSON file
+     */
+    protected function processResults($jsonFile)
+    {
+        if (file_exists($jsonFile)) {
+            $parser = new Plugin\Util\PhpUnitResult($jsonFile, $this->build->getBuildPath());
+
+            $this->build->storeMeta('codeception-data', $parser->parse()->getResults());
+            $this->build->storeMeta('codeception-errors', $parser->getFailures());
+
+            foreach ($parser->getErrors() as $error) {
+                $severity = $error['severity'] == $parser::SEVERITY_ERROR ? BuildError::SEVERITY_CRITICAL : BuildError::SEVERITY_HIGH;
+                $this->build->reportError(
+                    $this->builder, 'codeception', $error['message'], $severity, $error['file'], $error['line']
+                );
+            }
+            @unlink($jsonFile);
+        } else {
+            throw new \Exception('JSON output file does not exist: ' . $jsonFile);
+        }
     }
 }

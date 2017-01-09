@@ -88,13 +88,15 @@ class PhpUnitResult
     {
         list($pass, $severity) = $this->getStatus($event);
 
-        $data = array(
+        $data = [
             'pass'     => $pass,
             'severity' => $severity,
+            'suite'    => $event['suite'],
             'message'  => $this->buildMessage($event),
-            'trace'    => $pass ? array() : $this->buildTrace($event),
+            'time'     => round((float)$event['time'], 3),
+            'trace'    => $pass ? [] : $this->buildTrace($event),
             'output'   => $event['output'],
-        );
+        ];
 
         if (!$pass) {
             $this->failures++;
@@ -172,11 +174,11 @@ class PhpUnitResult
      */
     protected function buildTrace($event)
     {
-        $formattedTrace = array();
+        $formattedTrace = [];
 
         if (!empty($event['trace'])) {
             foreach ($event['trace'] as $step){
-                $line             = str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'];
+                $line             = isset($step['file']) ? str_replace($this->buildPath, '', $step['file']) . ':' . $step['line'] : '';
                 $formattedTrace[] = $line;
             }
         }
@@ -195,12 +197,12 @@ class PhpUnitResult
         $firstTrace = end($event['trace']);
         reset($event['trace']);
 
-        $this->errors[] = array(
+        $this->errors[] = [
             'message'  => $data['message'],
             'severity' => $data['severity'],
-            'file'     => str_replace($this->buildPath, '', $firstTrace['file']),
+            'file'     => isset($firstTrace['file']) ? str_replace($this->buildPath, '', $firstTrace['file']) : '',
             'line'     => $firstTrace['line'],
-        );
+        ];
     }
 
     /**
