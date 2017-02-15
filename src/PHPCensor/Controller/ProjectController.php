@@ -213,8 +213,8 @@ class ProjectController extends PHPCensor\Controller
      * Render latest builds for project as HTML table.
      *
      * @param int    $projectId
-     * @param string $environment    A urldecoded environment name.
-     * @param string $branch    A urldecoded branch name.
+     * @param string $environment A urldecoded environment name.
+     * @param string $branch      A urldecoded branch name.
      * @param int    $start
      * @param int    $perPage
      *
@@ -346,9 +346,9 @@ class ProjectController extends PHPCensor\Controller
         $this->layout->title    = $project->getTitle();
         $this->layout->subtitle = Lang::get('edit_project');
 
-        $values                 = $project->getDataArray();
-        $values['key']          = $values['ssh_private_key'];
-        $values['pubkey']       = $values['ssh_public_key'];
+        $values = $project->getDataArray();
+        $values['key'] = $values['ssh_private_key'];
+        $values['pubkey'] = $values['ssh_public_key'];
         $values['environments'] = $project->getEnvironments();
 
         if ($values['type'] == 'gitlab') {
@@ -386,6 +386,7 @@ class ProjectController extends PHPCensor\Controller
             'branch'              => $this->getParam('branch', null),
             'group'               => $this->getParam('group_id', null),
             'environments'        => $this->getParam('environments', null),
+            'secrets'             => $this->getParam('secrets', null),
         ];
 
         $project = $this->projectService->updateProject($project, $title, $type, $reference, $options);
@@ -543,6 +544,23 @@ class ProjectController extends PHPCensor\Controller
 
             return true;
         };
+    }
+
+    /**
+     * @param int $projectId
+     *
+     * @return b8\Http\Response
+     */
+    public function ajaxBuilds($projectId)
+    {
+        $branch      = $this->getParam('branch', '');
+        $environment = $this->getParam('environment', '');
+        $perPage     = (integer)$this->getParam('per_page', 10);
+        $builds      = $this->getLatestBuildsHtml($projectId, urldecode($environment), urldecode($branch), 0, $perPage);
+
+        $this->response->disableLayout();
+        $this->response->setContent($builds[0]);
+        return $this->response;
     }
 
     /**
