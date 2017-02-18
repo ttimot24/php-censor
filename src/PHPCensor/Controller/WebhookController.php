@@ -256,9 +256,9 @@ class WebhookController extends Controller
 
         if (substr($payload['ref'], 0, 10) == 'refs/tags/') {
             // If we don't, but we're dealing with a tag, add that instead:
-            $branch = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
+            $branch    = str_replace('refs/tags/', 'Tag: ', $payload['ref']);
             $committer = $payload['pusher']['email'];
-            $message = $payload['head_commit']['message'];
+            $message   = $payload['head_commit']['message'];
             return $this->createBuild($project, $payload['after'], $branch, $committer, $message);
         }
 

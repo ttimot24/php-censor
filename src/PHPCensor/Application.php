@@ -14,6 +14,7 @@ use b8\Exception\HttpException;
 use b8\Http\Response;
 use b8\Http\Response\RedirectResponse;
 use b8\View;
+use PHPixie\Database\Driver\PDO\Result;
 
 /**
 * PHPCI Front Controller
@@ -27,10 +28,27 @@ class Application extends b8\Application
     protected $controller;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Initialise PHPCI - Handles session verification, routing, etc.
      */
     public function init()
     {
+        $this->container = new Container();
+        $this->container->init($this, $this->config->getArray());
+
+/*      $connection = $this->container['database']->get('default');
+        $query      = $connection->selectQuery();
+        $posts      = $query
+            ->table('user')
+            ->limit(5)
+            ->execute();
+        
+        var_dump($posts); exit;*/
+
         $request =& $this->request;
         $route   = '/:controller/:action';
         $opts    = ['controller' => 'Home', 'action' => 'index'];

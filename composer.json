@@ -44,6 +44,7 @@
     "ext-xml":     "*",
     "ext-curl":    "*",
 
+    "phpixie/database":          "3.4.*",
     "swiftmailer/swiftmailer":   "5.4.*",
     "symfony/yaml":              "2.8.*",
     "symfony/console":           "2.8.*",

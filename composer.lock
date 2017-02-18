@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b1acb29244fbd9f29469af58ae07d1c",
+    "content-hash": "7834b71ed19709c1045667498bb01b7a",
     "packages": [
         {
             "name": "bower-asset/admin-lte",
@@ -306,6 +306,111 @@
                 "beanstalkd"
             ],
             "time": "2015-08-07T21:42:41+00:00"
+        },
+        {
+            "name": "phpixie/database",
+            "version": "3.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPixie/Database.git",
+                "reference": "beff812448e39d35de327a118aa6a62c0c40c93f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPixie/Database/zipball/beff812448e39d35de327a118aa6a62c0c40c93f",
+                "reference": "beff812448e39d35de327a118aa6a62c0c40c93f",
+                "shasum": ""
+            },
+            "require": {
+                "phpixie/slice": "~3.0"
+            },
+            "require-dev": {
+                "phpixie/test": "~3.0"
+            },
+            "suggest": {
+                "mongodb/mongodb": "Required for MongoDB support"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPixie\\": "src/PHPixie",
+                    "PHPixie\\Tests\\": "tests/PHPixie/Tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Tsiupa",
+                    "email": "draconyster@gmail.com",
+                    "homepage": "http://dracony.org"
+                }
+            ],
+            "description": "PHPixie Database library",
+            "homepage": "http://phpixie.com",
+            "keywords": [
+                "database",
+                "mysql",
+                "postgresql",
+                "sqlite"
+            ],
+            "time": "2016-12-12T09:28:56+00:00"
+        },
+        {
+            "name": "phpixie/slice",
+            "version": "3.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPixie/Slice.git",
+                "reference": "4435da2e2f877b899380c64c86e1bd55795c615c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPixie/Slice/zipball/4435da2e2f877b899380c64c86e1bd55795c615c",
+                "reference": "4435da2e2f877b899380c64c86e1bd55795c615c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpixie/test": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PHPixie\\": "src/PHPixie",
+                    "PHPixie\\Tests\\": "tests/PHPixie/Tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Roman Tsiupa",
+                    "email": "draconyster@gmail.com",
+                    "homepage": "http://dracony.org"
+                }
+            ],
+            "description": "Slice library for PHPixie",
+            "homepage": "http://phpixie.com",
+            "keywords": [
+                "array",
+                "data",
+                "parameters"
+            ],
+            "time": "2016-06-12T08:07:30+00:00"
         },
         {
             "name": "pimple/pimple",
