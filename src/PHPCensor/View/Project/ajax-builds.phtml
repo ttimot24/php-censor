@@ -38,7 +38,10 @@ switch($build->getStatus())
 }
 ?>
 <tr>
-    <td><a href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>">#<?php print str_pad($build->getId(), 6, '0', STR_PAD_LEFT); ?></a></td>
+    <td><a href="<?php echo APP_URL ?>build/view/<?php print $build->getId(); ?>">#<?php print $build->getIdPerProject(); ?></a></td>
+    <td>
+        <span class='label label-<?php echo $subcls ?>'><?php echo $status ?></span>
+    </td>
     <td><?php print $build->getCreated()->format('Y-m-d H:i:s'); ?></td>
     <td class="hidden-md hidden-sm hidden-xs">
         <?php
@@ -56,9 +59,6 @@ switch($build->getStatus())
     </td>
 
     <td><a href="<?php print $build->getBranchLink(); ?>" target="_blank"><?php print $build->getBranch(); ?></a></td>
-    <td>
-        <span class='label label-<?php echo $subcls ?>'><?php echo $status ?></span>
-    </td>
     <td>
         <?php print $build->getDuration(); ?> <?= Lang::get('seconds'); ?>
     </td>

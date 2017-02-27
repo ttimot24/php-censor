@@ -26,17 +26,50 @@ class BuildStore extends Store
 
     /**
      * Get a single Build by Id.
-     * @return null|Build
+     * 
+     * @param integer $value
+     * 
+     * @return Build|null
+     * 
+     * @throws HttpException
      */
-    public function getById($value, $useConnection = 'read')
+    public function getById($value)
     {
         if (is_null($value)) {
             throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
         }
 
         $query = 'SELECT * FROM {{build}} WHERE {{id}} = :id LIMIT 1';
-        $stmt = Database::getConnection($useConnection)->prepareCommon($query);
+        $stmt  = Database::getConnection()->prepareCommon($query);
         $stmt->bindValue(':id', $value);
+
+        if ($stmt->execute()) {
+            if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+                return new Build($data);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get a single Build by Id.
+     *
+     * @param integer $value
+     *
+     * @return Build|null
+     *
+     * @throws HttpException
+     */
+    public function getByIdPerProject($value)
+    {
+        if (is_null($value)) {
+            throw new HttpException('Value passed to ' . __FUNCTION__ . ' cannot be null.');
+        }
+
+        $query = 'SELECT * FROM {{build}} WHERE {{id_per_project}} = :id_per_project LIMIT 1';
+        $stmt  = Database::getConnection()->prepareCommon($query);
+        $stmt->bindValue(':id_per_project', $value);
 
         if ($stmt->execute()) {
             if ($data = $stmt->fetch(\PDO::FETCH_ASSOC)) {

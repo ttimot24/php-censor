@@ -11,6 +11,7 @@ namespace PHPCensor;
 
 use b8\Store\Factory;
 use PHPCensor\Model\Build;
+use PHPCensor\Store\BuildStore;
 
 /**
 * PHPCI Build Factory - Takes in a generic "Build" and returns a type-specific build model.
@@ -19,16 +20,40 @@ use PHPCensor\Model\Build;
 class BuildFactory
 {
     /**
-     * @param $buildId
+     * @param integer $buildId
+     * 
      * @return Build
+     * 
      * @throws \Exception
      */
     public static function getBuildById($buildId)
     {
-        $build = Factory::getStore('Build')->getById($buildId);
+        /** @var BuildStore $buildStore */
+        $buildStore = Factory::getStore('Build');
+        $build      = $buildStore->getById($buildId);
 
         if (empty($build)) {
-            throw new \Exception('Build ID ' . $buildId . ' does not exist.');
+            throw new \Exception('Build Id ' . $buildId . ' does not exist.');
+        }
+
+        return self::getBuild($build);
+    }
+
+    /**
+     * @param integer $buildId
+     *
+     * @return Build
+     *
+     * @throws \Exception
+     */
+    public static function getBuildByIdPerProject($buildId)
+    {
+        /** @var BuildStore $buildStore */
+        $buildStore = Factory::getStore('Build');
+        $build      = $buildStore->getByIdPerProject($buildId);
+
+        if (empty($build)) {
+            throw new \Exception('Build IdPerProject ' . $buildId . ' does not exist.');
         }
 
         return self::getBuild($build);

@@ -54,8 +54,8 @@
                         <?php print $build->getProject()->getTitle(); ?>
                     </a>
                     -
-                    <a href="<?php print APP_URL; ?>build/view/<?php print $build->getId(); ?>">
-                        Build #<?php print $build->getId(); ?>
+                    <a href="<?= APP_URL; ?>build/view/<?php print $build->getId(); ?>">
+                        Build #<?= $build->getIdPerProject(); ?>
                     </a>
                     -
                     <?php print $label; ?>

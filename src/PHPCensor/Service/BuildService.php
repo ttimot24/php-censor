@@ -113,6 +113,7 @@ class BuildService
 
         // Clean up unwanted properties from the original build:
         unset($data['id']);
+        unset($data['id_per_project']);
         unset($data['status']);
         unset($data['log']);
         unset($data['started']);

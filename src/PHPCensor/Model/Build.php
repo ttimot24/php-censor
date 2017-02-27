@@ -43,6 +43,7 @@ class Build extends Model
         'committer_email' => null,
         'commit_message'  => null,
         'extra'           => null,
+        'id_per_project'  => null,
     ];
 
     /**
@@ -62,6 +63,7 @@ class Build extends Model
         'committer_email' => 'getCommitterEmail',
         'commit_message'  => 'getCommitMessage',
         'extra'           => 'getExtra',
+        'id_per_project'  => 'getIdPerProject',
 
         // Foreign key getters:
         'Project' => 'getProject',
@@ -84,6 +86,7 @@ class Build extends Model
         'committer_email' => 'setCommitterEmail',
         'commit_message'  => 'setCommitMessage',
         'extra'           => 'setExtra',
+        'id_per_project'  => 'setIdPerProject',
 
         // Foreign key setters:
         'Project' => 'setProject',
@@ -155,6 +158,10 @@ class Build extends Model
             'type'     => 'text',
             'nullable' => true,
             'default'  => null,
+        ],
+        'id_per_project' => [
+            'type'    => 'int',
+            'default' => null,
         ],
     ];
 
@@ -308,6 +315,16 @@ class Build extends Model
     public function getCommitterEmail()
     {
         $rtn = $this->data['committer_email'];
+
+        return $rtn;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getIdPerProject()
+    {
+        $rtn = $this->data['id_per_project'];
 
         return $rtn;
     }
@@ -531,6 +548,22 @@ class Build extends Model
         $this->data['extra'] = $value;
 
         $this->setModified('extra');
+    }
+
+    /**
+     * @param integer $value
+     */
+    public function setIdPerProject($value)
+    {
+        $this->validateInt('IdPerProject', $value);
+
+        if ($this->data['id_per_project'] === $value) {
+            return;
+        }
+
+        $this->data['id_per_project'] = $value;
+
+        $this->setModified('id_per_project');
     }
 
     /**

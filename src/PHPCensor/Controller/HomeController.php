@@ -15,6 +15,7 @@ use PHPCensor\BuildFactory;
 use PHPCensor\Helper\Lang;
 use PHPCensor\Model\Build;
 use PHPCensor\Controller;
+use b8\Store\Factory;
 
 /**
 * Home Controller - Displays the PHPCI Dashboard.
@@ -44,9 +45,9 @@ class HomeController extends Controller
      */
     public function init()
     {
-        $this->buildStore    = b8\Store\Factory::getStore('Build');
-        $this->projectStore  = b8\Store\Factory::getStore('Project');
-        $this->groupStore    = b8\Store\Factory::getStore('ProjectGroup');
+        $this->buildStore    = Factory::getStore('Build');
+        $this->projectStore  = Factory::getStore('Project');
+        $this->groupStore    = Factory::getStore('ProjectGroup');
     }
 
     /**

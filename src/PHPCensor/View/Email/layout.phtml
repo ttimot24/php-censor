@@ -7,16 +7,16 @@
         </style>
     </head>
     <body>
-        <div style="background: #<?php print $build->isSuccessful() ? '090' : '900'; ?>; padding: 25px;">
+        <div style="background: #<?= $build->isSuccessful() ? '090' : '900'; ?>; padding: 25px;">
             <div style="background: #fff; padding: 15px; border-radius: 5px">
-                <header><?php print $project->getTitle(); ?> - Build #<?php print $build->getId(); ?></header>
+                <header><?= $project->getTitle(); ?> - Build #<?= $build->getIdPerProject(); ?></header>
                 <div>
                     <p>
-                        Your commit <strong><?php print $build->getCommitId(); ?></strong> generated a
-                        <?php print $build->isSuccessful() ? 'success' : 'failed'; ?> build in project
-                        <strong><?php print $project->getTitle(); ?></strong>.
+                        Your commit <strong><?= $build->getCommitId(); ?></strong> generated a
+                        <?= $build->isSuccessful() ? 'success' : 'failed'; ?> build in project
+                        <strong><?= $project->getTitle(); ?></strong>.
                     </p>
-                    <?php print $content; ?>
+                    <?= $content; ?>
                 </div>
                 <footer>
                     You can review <a href="<?php print $build->getCommitLink(); ?>">your commit</a>

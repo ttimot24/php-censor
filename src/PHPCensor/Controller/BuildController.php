@@ -49,9 +49,13 @@ class BuildController extends Controller
     }
 
     /**
-    * View a specific build.
-    */
-    public function view($buildId)
+     * View a specific build.
+     * 
+     * @param integer $buildId
+     * 
+     * @throws NotFoundException
+     */
+    public function view($buildId) 
     {
         try {
             $build = BuildFactory::getBuildById($buildId);

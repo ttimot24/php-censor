@@ -192,7 +192,7 @@ class Project extends Model
      */
     public function getId()
     {
-        $rtn    = $this->data['id'];
+        $rtn = $this->data['id'];
 
         return $rtn;
     }
@@ -204,7 +204,7 @@ class Project extends Model
      */
     public function getTitle()
     {
-        $rtn    = $this->data['title'];
+        $rtn = $this->data['title'];
 
         return $rtn;
     }
@@ -216,7 +216,7 @@ class Project extends Model
      */
     public function getReference()
     {
-        $rtn    = $this->data['reference'];
+        $rtn = $this->data['reference'];
 
         return $rtn;
     }
@@ -228,7 +228,7 @@ class Project extends Model
      */
     public function getSshPrivateKey()
     {
-        $rtn    = $this->data['ssh_private_key'];
+        $rtn = $this->data['ssh_private_key'];
 
         return $rtn;
     }
@@ -240,7 +240,7 @@ class Project extends Model
      */
     public function getType()
     {
-        $rtn    = $this->data['type'];
+        $rtn = $this->data['type'];
 
         return $rtn;
     }
@@ -252,7 +252,7 @@ class Project extends Model
      */
     public function getLastCommit()
     {
-        $rtn    = $this->data['last_commit'];
+        $rtn = $this->data['last_commit'];
 
         return $rtn;
     }
@@ -276,7 +276,7 @@ class Project extends Model
      */
     public function getSshPublicKey()
     {
-        $rtn    = $this->data['ssh_public_key'];
+        $rtn = $this->data['ssh_public_key'];
 
         return $rtn;
     }
@@ -300,7 +300,7 @@ class Project extends Model
      */
     public function getArchived()
     {
-        $rtn    = $this->data['archived'];
+        $rtn = $this->data['archived'];
 
         return $rtn;
     }
@@ -312,7 +312,7 @@ class Project extends Model
      */
     public function getGroupId()
     {
-        $rtn    = $this->data['group_id'];
+        $rtn = $this->data['group_id'];
 
         return $rtn;
     }
