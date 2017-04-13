@@ -252,8 +252,10 @@ class GithubBuild extends RemoteGitBuild
         if (!empty($prNumber)) {
             $builder->executeCommand('cd %s && git diff origin/%s "%s"', $path, $this->getBranch(), $file);
         } else {
-            $commitId = $this->getCommitId();
-            $compare = $commitId == 'Manual' ? 'HEAD' : $commitId;
+            $commitId    = $this->getCommitId();
+            $buildSource = $this->getSource();
+            $compare     = ($buildSource === self::SOURCE_MANUAL) ? 'HEAD' : $commitId;
+
             $builder->executeCommand('cd %s && git diff %s^^ "%s"', $path, $compare, $file);
         }
 

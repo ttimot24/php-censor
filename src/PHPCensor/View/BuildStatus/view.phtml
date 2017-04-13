@@ -73,7 +73,7 @@
                                     <strong>Branch: </strong> <?php print $latest->getBranch(); ?><br />
                                     <strong>Committer: </strong> <?php print $latest->getCommitterEmail(); ?>
     
-                                    <?php if ($latest->getCommitId() != 'Manual'): ?>
+                                    <?php if ($latest->getCommitId() !== 'Manual'): ?>
                                         <br /><strong>Commit: </strong> <?php print $latest->getCommitId(); ?><br>
                                     <?php endif; ?>
                                 </p>

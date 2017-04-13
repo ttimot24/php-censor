@@ -84,11 +84,11 @@ class MercurialBuild extends Build
     protected function postCloneSetup(Builder $builder, $cloneTo)
     {
         $success = true;
-        $commit = $this->getCommitId();
+        $commit  = $this->getCommitId();
 
         // Allow switching to a specific branch:
         if (!empty($commit) && $commit != 'Manual') {
-            $cmd = 'cd "%s" && hg checkout %s';
+            $cmd     = 'cd "%s" && hg checkout %s';
             $success = $builder->executeCommand($cmd, $cloneTo, $this->getBranch());
         }
 
