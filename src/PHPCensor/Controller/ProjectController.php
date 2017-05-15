@@ -551,23 +551,6 @@ class ProjectController extends PHPCensor\Controller
      *
      * @return b8\Http\Response
      */
-    public function ajaxBuilds($projectId)
-    {
-        $branch      = $this->getParam('branch', '');
-        $environment = $this->getParam('environment', '');
-        $perPage     = (integer)$this->getParam('per_page', 10);
-        $builds      = $this->getLatestBuildsHtml($projectId, urldecode($environment), urldecode($branch), 0, $perPage);
-
-        $this->response->disableLayout();
-        $this->response->setContent($builds[0]);
-        return $this->response;
-    }
-
-    /**
-     * @param int $projectId
-     *
-     * @return b8\Http\Response
-     */
     public function ajaxDashboardProject($projectId)
     {
         $builds = $this->getDashboardProjectHtml($projectId);
