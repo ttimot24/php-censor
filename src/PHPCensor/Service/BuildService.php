@@ -153,6 +153,7 @@ class BuildService
 
     /**
      * Takes a build and puts it into the queue to be run (if using a queue)
+     *
      * @param Build $build
      */
     public function addBuildToQueue(Build $build)

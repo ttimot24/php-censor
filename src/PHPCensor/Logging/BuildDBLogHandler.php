@@ -5,7 +5,6 @@ namespace PHPCensor\Logging;
 use b8\Store\Factory;
 use Monolog\Handler\AbstractProcessingHandler;
 use PHPCensor\Model\Build;
-use Psr\Log\LogLevel;
 
 /**
  * Class BuildDBLogHandler writes the build log to the database.
@@ -30,16 +29,14 @@ class BuildDBLogHandler extends AbstractProcessingHandler
     protected $flush_delay = 1;
 
     /**
-     * @param Build $build
-     * @param bool $level
-     * @param bool $bubble
+     * @param integer $level
+     * @param boolean $bubble
+     * @param Build   $build
      */
-    public function __construct(
-        Build $build,
-        $level = LogLevel::INFO,
-        $bubble = true
-    ) {
+    public function __construct($level, $bubble, Build $build)
+    {
         parent::__construct($level, $bubble);
+
         $this->build = $build;
         // We want to add to any existing saved log information.
         $this->logValue = $build->getLog();

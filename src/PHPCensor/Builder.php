@@ -176,22 +176,18 @@ class Builder implements LoggerAwareInterface
     public function execute()
     {
         // check current status
-        if ($this->build->getStatus() != Build::STATUS_PENDING) {
-            throw new BuilderException('Can`t build - status is not pending', BuilderException::FAIL_START);
-        }
-        // set status only if current status pending
-        if (!$this->build->setStatusSync(Build::STATUS_RUNNING)) {
-            throw new BuilderException('Can`t build - unable change status to running', BuilderException::FAIL_START);
+        if ($this->build->getStatus() !== Build::STATUS_PENDING) {
+            throw new \Exception('Can`t start build #' . $this->build->getId() . ' - status is not pending');
         }
 
         // Update the build in the database, ping any external services.
+        $this->build->setStatus(Build::STATUS_RUNNING);
         $this->build->setStarted(new \DateTime());
         $this->store->save($this->build);
         $this->build->sendStatusPostback();
         $success = true;
 
         $previous_build = $this->build->getProject()->getPreviousBuild($this->build->getBranch());
-
         $previous_state = Build::STATUS_PENDING;
 
         if ($previous_build) {
@@ -207,8 +203,7 @@ class Builder implements LoggerAwareInterface
                 $success &= $this->pluginExecutor->executePlugins($this->config, $stage);
             }
 
-            // Set the status so this can be used by complete, success and failure
-            // stages.
+            // Set the status so this can be used by complete, success and failure stages.
             if ($success) {
                 $this->build->setStatus(Build::STATUS_SUCCESS);
             } else {
@@ -229,9 +224,10 @@ class Builder implements LoggerAwareInterface
                     $this->pluginExecutor->executePlugins($this->config, Build::STAGE_BROKEN);
                 }
             }
-        } catch (\Exception $ex) {
-            $this->build->setStatus(Build::STATUS_FAILED);
-            $this->buildLogger->logFailure('Exception: ' . $ex->getMessage(), $ex);
+        } catch (\Exception $e) {
+            $this->buildLogger->logFailure("\nBUILD FAILED");
+
+            throw $e;
         }
 
         if (Build::STATUS_FAILED === $this->build->getStatus()) {

@@ -14,7 +14,9 @@ class BuildFactory
 {
     /**
      * @param $buildId
+     *
      * @return Build
+     *
      * @throws \Exception
      */
     public static function getBuildById($buildId)
@@ -22,7 +24,7 @@ class BuildFactory
         $build = Factory::getStore('Build')->getById($buildId);
 
         if (empty($build)) {
-            throw new \Exception('Build ID ' . $buildId . ' does not exist.');
+            throw new \Exception('Build #' . $buildId . ' does not exist in the database.');
         }
 
         return self::getBuild($build);
